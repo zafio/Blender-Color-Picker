@@ -18,7 +18,7 @@ It works in **Texture Paint**, **Vertex Paint** and **Weight Paint**, and it is 
 
 **Blender 4.5 and newer** (5.x tested upstream in 5.3):
 
-1. Download the zip: for **Blender 4.5** use [`releases/ColorPicker_v1.3.1_(Blender_4.5).zip`](releases); for 5.x the same build works, or use the **[latest upstream release](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest)**.
+1. Download the zip: for **Blender 4.5** use [`releases/ColorPicker_v1.4.0_(Blender_4.5).zip`](releases); for 5.x the same build works, or use the **[latest upstream release](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest)**.
 2. In Blender, go to *Edit > Preferences > Get Extensions*, open the menu in the top-right corner and choose *Install from Disk…*, then select the zip. You can also drag and drop the zip into Blender.
 
 Older builds for Blender 2.93, 3.x and 4.0/4.1 are in the [`releases`](releases) folder.
@@ -31,6 +31,11 @@ Older builds for Blender 2.93, 3.x and 4.0/4.1 are in the [`releases`](releases)
 2. Hover over the 3D Viewport and **hold `Space`**. The picker opens under your mouse.
 3. Click or drag on the picker to choose a color. The brush updates right away.
 4. **Release `Space`** to close the picker.
+
+While it's open you can also:
+
+- Press **`Tab`** (or `Shift+Tab`) to switch between picker layouts.
+- Hold **`H`**, **`S`** or **`V`** and move the mouse left/right to change hue, saturation or value. Add `Shift` for fine control.
 
 You can also close it with `Esc`. If you turn off *Close on Hot-key Release*, the picker stays open after you release the key. Then press `Space` again or click outside the picker to close it.
 

@@ -17,6 +17,13 @@ from . prefs import get_prefs
 
 FACTOR_NUM_CHAR = 0.185  # 6666
 
+# While the picker is open: hold one of these keys and move the mouse
+# left/right to change that HSV component.
+HSV_ADJUST_KEYS = {'H': 'h', 'S': 's', 'V': 'v'}
+# Mouse travel (in px, before UI scale) for a full 0..1 sweep.
+HSV_ADJUST_RANGE_PX = 400
+HSV_ADJUST_MIN = 0.00001  # Same floor as the S/V sliders, keeps hue from collapsing.
+
 
 class Colpk(object):
     def invoke(self, context, event):
@@ -63,6 +70,9 @@ class Colpk(object):
         self.color = brush.color if not self.ups.use_unified_color else self.ups.color
         self.secondary_color = brush.secondary_color if not self.ups.use_unified_color else self.ups.secondary_color
         self.picking_color = False
+        self.hsv_adjust = None
+        self.hsv_sync_callbacks = []
+        self.hsv_confirm_callbacks = []
         self.dpi = self.prefs.screen_dpi
         from . draw.text import text_settings
         text_settings['dpi'] = self.dpi
@@ -107,6 +117,7 @@ class Colpk(object):
         ))
 
         scale = self.dpi/72 * getattr(self.prefs, 'scale', 1)
+        self.ui_scale = scale
 
         if context.mode == 'PAINT_WEIGHT':
             _width = 360 * scale
@@ -558,6 +569,17 @@ class Colpk(object):
             colrec_teg.set_act_back(pkanillo.upd_val)
             pkanillo.onestval(colrec_teg.learn)
 
+        # Widgets to refresh after an H/S/V key adjustment, and what to call
+        # when it ends (same as confirming a slider).
+        self.hsv_sync_callbacks = [
+            hue_sld.upd_val, sat_sld.upd_val, val_sld.upd_val,
+            red_sld.upd_val, green_sld.upd_val, blue_sld.upd_val,
+            pkcol.upd_vals,
+        ]
+        if self.picker_type == 'SV_H_RECT':
+            self.hsv_sync_callbacks.append(pkanillo.upd_val)
+        self.hsv_confirm_callbacks = [preview_diff.confirm_new_color, colrec_teg.learn]
+
         # BOT
         #tuoy_bot = Subtuoya(tuoy, Anchor(0, 1, 0, .5))
         #tuoy_bot.set_pad(0, 0, 0, 4)
@@ -566,9 +588,91 @@ class Colpk(object):
         if (event.type == self.key and event.value == 'RELEASE' and self.close_at_release) or (event.type == self.key and event.value == 'PRESS' and not self.close_at_release) or event.type == 'ESC' or (event.type == 'LEFTMOUSE' and event.value == 'PRESS' and not self.close_at_release and not point_inside_rect((event.mouse_region_x, event.mouse_region_y), *self.main_tuoy.get_pos_size())):
             self.finish(context if context.area == self.ctx_area else None)
             return {'FINISHED'}
+        if context.mode != 'PAINT_WEIGHT':
+            ret = self.modal_shortcuts(context, event)
+            if ret is not None:
+                return ret
         return self.mod((self, context, event))  # TODO: finish this :-(
 
+    def modal_shortcuts(self, context, event):
+        """ Tab / Shift+Tab: switch picker layout. H, S, V + mouse move: adjust that component. """
+        if event.type == 'TAB':
+            if event.value == 'PRESS' and not event.is_repeat:
+                self.cycle_picker_type(context, -1 if event.shift else 1)
+            return {'RUNNING_MODAL'}
+        if event.type in HSV_ADJUST_KEYS:
+            comp = HSV_ADJUST_KEYS[event.type]
+            if event.value == 'PRESS' and self.hsv_adjust != comp:
+                if self.hsv_adjust:
+                    self.end_hsv_adjust(context)
+                self.start_hsv_adjust(context, event, comp)
+            elif event.value == 'RELEASE' and self.hsv_adjust == comp:
+                self.end_hsv_adjust(context)
+            return {'RUNNING_MODAL'}
+        if self.hsv_adjust and event.type in {'MOUSEMOVE', 'INBETWEEN_MOUSEMOVE'}:
+            self.apply_hsv_adjust(event)
+            return {'RUNNING_MODAL'}
+        return None
+
+    def start_hsv_adjust(self, context, event, comp):
+        self.hsv_adjust = comp
+        self.hsv_last_x = event.mouse_x
+        self.hsv_value = getattr(self.color_user.color, comp)
+        Cursor.set_icon(context, CursorIcon.SCROLL_X)
+
+    def apply_hsv_adjust(self, event):
+        dx = event.mouse_x - self.hsv_last_x
+        self.hsv_last_x = event.mouse_x
+        if not dx:
+            return
+        delta = dx / (HSV_ADJUST_RANGE_PX * self.ui_scale)
+        if event.shift:
+            delta *= 0.1  # Precision mode.
+        if self.hsv_adjust == 'h':
+            self.hsv_value = (self.hsv_value + delta) % 1.0
+        else:
+            self.hsv_value = min(max(self.hsv_value + delta, HSV_ADJUST_MIN), 1.0)
+        # Track the value ourselves so repeated HSV<->RGB round trips don't drift.
+        color = self.color_user.color
+        setattr(color, self.hsv_adjust, self.hsv_value)
+        self.color_user.color = color
+        for callback in self.hsv_sync_callbacks:
+            callback()
+        self.ctx_region.tag_redraw()
+
+    def end_hsv_adjust(self, context=None):
+        if not self.hsv_adjust:
+            return
+        self.hsv_adjust = None
+        for callback in self.hsv_confirm_callbacks:
+            callback()
+        if context:
+            Cursor.set_icon(context, CursorIcon.DEFAULT)
+        self.ctx_region.tag_redraw()
+
+    def cycle_picker_type(self, context, step=1):
+        if context.area != self.ctx_area:
+            return
+        self.end_hsv_adjust(context)
+        from . data import copktype
+        types = [item[0] for item in copktype]
+        idx = types.index(self.picker_type) if self.picker_type in types else 0
+        self.picker_type = types[(idx + step) % len(types)]
+        # Remember the choice, like changing it in the settings.
+        self.prefs.color_picker_type = self.picker_type
+        # Rebuild the UI in place; the modal handler itself keeps running.
+        self.mod.draw.stop()
+        self.main_tuoy.unload()
+        if context.mode == 'PAINT_TEXTURE':
+            self.init_tuoy_texture(context)
+        else:
+            self.init_tuoy_vertex(context)
+        self.mod = MOD(self, context, self.main_tuoy)
+        self.main_tuoy.load()
+        self.mod.draw.start(self, context)
+
     def finish(self, context=None):
+        self.end_hsv_adjust()
         self.mod.stop(context == None)
         self.paint.show_brush = True
         Cursor.set_icon(context, CursorIcon.PAINT_CROSS)

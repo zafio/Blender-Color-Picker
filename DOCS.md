@@ -65,6 +65,20 @@ With the setting **on**, the picker works like a quick "hold to pick" overlay. W
 
 While the picker is open, the brush outline is hidden so it doesn't get in the way. It comes back when the picker closes.
 
+## Keyboard shortcuts while the picker is open
+
+These work in Texture Paint and Vertex Paint while you hold `Space` (or while the picker is open, if *Close on Hot-key Release* is off):
+
+| Shortcut | What it does |
+| --- | --- |
+| `Tab` / `Shift+Tab` | Switch to the next / previous picker layout (SV Square → SV+H Square & Ring → HS Circle). The choice is saved as your *Color Picker Type*. |
+| Hold `H` + move the mouse left/right | Change the **hue**. It wraps around. |
+| Hold `S` + move the mouse left/right | Change the **saturation**. |
+| Hold `V` + move the mouse left/right | Change the **value** (brightness). |
+| Add `Shift` while moving | Fine adjustment (10× slower). |
+
+Moving the mouse across the picker's width covers the full 0 to 1 range. When you release `H`, `S` or `V`, the new color is added to the recent colors, like after dragging a slider.
+
 ## The picker at a glance
 
 ![SV Square](docs/images/sv_square.png)

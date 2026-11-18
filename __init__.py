@@ -23,11 +23,6 @@ bl_info = {
     "category": "Interface"
 }
 
-if __package__.split(".")[-1] != "color_picker":
-    print("WARNING: ColorPicker addon's folder should be named 'color_picker'")
-    assert Exception(
-        "ColorPicker addon's folder should be named 'color_picker'")
-
 TEMPLATE_DEBUG = False
 TUOYA_DEBUG = False
 

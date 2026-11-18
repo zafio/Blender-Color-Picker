@@ -1,6 +1,5 @@
 
 # ATTENTION!! DEPRECATED!!!!!!
-from ..import __package__ as __main__
 from enum import Enum
 from mathutils import Vector
 shader_2d_area_border_frag = '''
@@ -667,7 +666,9 @@ void main()
   fragColor = texture(image, texCoord_interp);
 }
 '''
-if __main__.split('.')[-1] == 'color_picker':
+# Defined unconditionally: the add-on must load whatever its folder/package is named
+# (e.g. a GitHub 'Download ZIP' folder like 'Blender-Color-Picker-main').
+if True:
     IMG_VS = '''
       uniform mat4 ModelViewProjectionMatrix;
       in vec2 texco;

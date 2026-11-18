@@ -4,27 +4,27 @@
 
 ### Is Color Picker really free?
 
-Yes. Color Picker is free and open source under the GPL-3.0 license, the same family of license as Blender. You can download it from the [latest GitHub release](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest), use it in personal and commercial work, study the code and share it.
+Yes. Color Picker is free and open source under the GPL-3.0 license, the same family of license as Blender. You can download it from [GitHub](https://github.com/zafio/Blender-Color-Picker/archive/refs/heads/main.zip), use it in personal and commercial work, study the code and share it.
 
 ### Then why is it sold on Superhive?
 
-Buying it is how you support its development. Color Picker is made by one independent developer, and every new Blender version can break add-ons. Purchases pay for updates, bug fixes and new features, and keep the add-on free for everyone, including students, hobbyists and artists who can't pay for tools right now.
+Superhive sells the original add-on by J. Fran Matheu; buying it is how you support his work. Color Picker is made by one independent developer, and every new Blender version can break add-ons. Purchases pay for updates, bug fixes and new features, and keep the add-on free for everyone, including students, hobbyists and artists who can't pay for tools right now.
 
 [Get it on Superhive](https://superhivemarket.com/products/color-picker)
 
-### Is the store version different from the GitHub version?
+### Is the store version different from this fork?
 
-No. It's the same add-on. Buying it doesn't unlock extra features; it supports the project.
+The store sells the original add-on, which needs Blender 5.0 or newer. This fork is the same add-on adapted to Blender 4.5, plus keyboard shortcuts (`Tab` to switch layouts, `H`/`S`/`V` + mouse to adjust the color).
 
 ### I can't afford it. Can I still use it?
 
-Absolutely. Download it from [GitHub](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest). That's exactly why it's free.
+Absolutely. Download it from [GitHub](https://github.com/zafio/Blender-Color-Picker/archive/refs/heads/main.zip). That's exactly why it's free.
 
 ## Compatibility
 
 ### Which Blender versions are supported?
 
-The current version (1.3.0) needs **Blender 5.0 or newer** and is tested in Blender 5.3. Older builds for Blender 2.93, 3.x and 4.x are in the repository's [`releases`](releases) folder. They don't receive updates.
+This fork (1.4.0) needs **Blender 4.5 or newer** and also runs on 5.x. Builds for Blender 2.93 to 4.1 are in the [original repository's `releases` folder](https://github.com/jfranmatheu/Blender-Color-Picker/tree/main/releases). They don't receive updates.
 
 ### Which modes does it work in?
 
@@ -34,7 +34,7 @@ The current version (1.3.0) needs **Blender 5.0 or newer** and is tested in Blen
 
 ### How do I install it?
 
-1. Download the zip from the [latest release](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest) (or from your store purchase).
+1. Download the repository as a zip: [main.zip](https://github.com/zafio/Blender-Color-Picker/archive/refs/heads/main.zip) (or *Code > Download ZIP* on GitHub).
 2. In Blender, go to *Edit > Preferences > Get Extensions*, open the menu in the top-right corner and choose *Install from Disk…*, then select the zip. You can also drag and drop the zip into Blender.
 
 Don't unzip it first: Blender installs the zip directly.
@@ -70,6 +70,10 @@ The same one Blender would. If *Unified Color* is on, it changes the shared colo
 
 Raise or lower *Screen DPI* in the settings. For finer control, use *Scale Factor* in the add-on's preferences (0.5 to 2).
 
+### Can I change the color without clicking?
+
+Yes. While the picker is open, hold `H`, `S` or `V` and move the mouse left/right to change hue, saturation or value (add `Shift` for fine control). Press `Tab` to switch layouts. See [Keyboard shortcuts](README.md#keyboard-shortcuts-while-the-picker-is-open).
+
 ### Can I see the hex code of the color?
 
 Yes. Turn on *Show Hex* in the settings.
@@ -78,6 +82,6 @@ Yes. Turn on *Show Hex* in the settings.
 
 ### I found a bug. Where do I report it?
 
-Open an issue on [GitHub](https://github.com/jfranmatheu/Blender-Color-Picker/issues). Include your Blender version, your operating system, the paint mode, and any error from Blender's system console.
+Open an issue on [GitHub](https://github.com/zafio/Blender-Color-Picker/issues). Include your Blender version, your operating system, the paint mode, and any error from Blender's system console.
 
-More details are in the [documentation](DOCS.md) and the [README](README.md).
+More details are in the [README](README.md).

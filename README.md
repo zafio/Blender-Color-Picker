@@ -1,12 +1,10 @@
 # Color Picker
 
-> Fork by Zafio of [jfranmatheu/Blender-Color-Picker](https://github.com/jfranmatheu/Blender-Color-Picker), lowered to run on **Blender 4.5 LTS** (the 1.3.x code also keeps working on 5.x).
-
-![Color Picker for Blender](docs/images/cover.png)
+> Fork by Zafio of [jfranmatheu/Blender-Color-Picker](https://github.com/jfranmatheu/Blender-Color-Picker), made to run on **Blender 4.5 LTS** (it keeps working on 5.x), with extra keyboard shortcuts.
 
 <div align="center">
 
-**[⬇️ Download the latest release](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest)** · **[🌐 Website & live demo](https://jfranmatheu.github.io/Blender-Color-Picker/)** · **[📖 Docs](DOCS.md)** · **[❓ FAQ](FAQ.md)** · **[❤️ Support the developer](#️-support-the-developer)**
+**[⬇️ Download](https://github.com/zafio/Blender-Color-Picker/archive/refs/heads/main.zip)** · **[⌨️ Shortcuts](#keyboard-shortcuts-while-the-picker-is-open)** · **[❓ FAQ](FAQ.md)** · **[❤️ Support the original developer](#️-support-the-original-developer)**
 
 </div>
 
@@ -16,36 +14,47 @@ It works in **Texture Paint**, **Vertex Paint** and **Weight Paint**, and it is 
 
 ## Installation
 
-**Blender 4.5 and newer** (5.x tested upstream in 5.3):
+Version 1.4.0, for **Blender 4.5 and newer**.
 
-1. Download the zip: for **Blender 4.5** use [`releases/ColorPicker_v1.4.0_(Blender_4.5).zip`](releases); for 5.x the same build works, or use the **[latest upstream release](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest)**.
+1. Download the repository as a zip: **[main.zip](https://github.com/zafio/Blender-Color-Picker/archive/refs/heads/main.zip)** (or *Code > Download ZIP* on GitHub).
 2. In Blender, go to *Edit > Preferences > Get Extensions*, open the menu in the top-right corner and choose *Install from Disk…*, then select the zip. You can also drag and drop the zip into Blender.
 
-Older builds for Blender 2.93, 3.x and 4.0/4.1 are in the [`releases`](releases) folder.
+Don't unzip it first: Blender installs the zip directly. To update, install the new zip the same way.
+
+Builds for older Blender versions (2.93 to 4.1) are in the [original repository's `releases` folder](https://github.com/jfranmatheu/Blender-Color-Picker/tree/main/releases).
 
 ## Usage
-
-![Made for painting fast](docs/images/features.png)
 
 1. Enter Texture Paint, Vertex Paint or Weight Paint mode.
 2. Hover over the 3D Viewport and **hold `Space`**. The picker opens under your mouse.
 3. Click or drag on the picker to choose a color. The brush updates right away.
 4. **Release `Space`** to close the picker.
 
-While it's open you can also:
-
-- Press **`Tab`** (or `Shift+Tab`) to switch between picker layouts.
-- Hold **`H`**, **`S`** or **`V`** and move the mouse left/right to change hue, saturation or value. Add `Shift` for fine control.
+While it's open you can also switch layouts and change hue, saturation or value from the keyboard (see [Keyboard shortcuts](#keyboard-shortcuts-while-the-picker-is-open)).
 
 You can also close it with `Esc`. If you turn off *Close on Hot-key Release*, the picker stays open after you release the key. Then press `Space` again or click outside the picker to close it.
 
+The picker opens centered on your mouse; near the edges of the 3D Viewport it shifts so it stays fully visible. It only opens when the current paint mode has an active brush, and the brush outline is hidden while it's open.
+
 The picker edits the same color Blender's brush uses. If *Unified Color* is on, it changes the shared color; otherwise it changes the active brush's own color.
+
+## Keyboard shortcuts while the picker is open
+
+These work in Texture Paint and Vertex Paint while you hold `Space` (or while the picker is open, if *Close on Hot-key Release* is off):
+
+| Shortcut | What it does |
+| --- | --- |
+| `Tab` / `Shift+Tab` | Switch to the next / previous picker layout (SV Square → SV+H Square & Ring → HS Circle). The choice is saved as your *Color Picker Type*. |
+| Hold `H` + move the mouse left/right | Change the **hue**. It wraps around. |
+| Hold `S` + move the mouse left/right | Change the **saturation**. |
+| Hold `V` + move the mouse left/right | Change the **value** (brightness). |
+| Add `Shift` while moving | Fine adjustment (10× slower). |
+
+Moving the mouse across the picker's width covers the full 0 to 1 range. When you release `H`, `S` or `V`, the new color is added to the recent colors, like after dragging a slider.
 
 ## Picker layouts
 
-![Three picker layouts](docs/images/layouts.png)
-
-Choose a layout under *Color Picker Type* in the settings (see [Settings](#settings)). Every layout has the same panel on the right:
+Choose a layout under *Color Picker Type* in the settings (see [Settings](#settings)), or press `Tab` while the picker is open. Every layout has the same panel on the right:
 
 - **Color preview** at the top.
 - **H / S / V sliders** for hue, saturation and value.
@@ -53,19 +62,17 @@ Choose a layout under *Color Picker Type* in the settings (see [Settings](#setti
 
 Every slider shows a live gradient of the colors you would get by moving it, so you can see the result before you drag.
 
-| Layout | How it works | |
-| --- | --- | --- |
-| **SV Square** (default) | A square where the horizontal axis is **saturation** and the vertical axis is **value** (brightness). Use the H slider to change the hue. | <img src="docs/images/sv_square.png" width="320" alt="SV Square"> |
-| **SV+H Square & Ring** | The same saturation/value square, inside a **hue ring**. Drag around the ring to change the hue and inside the square to set saturation and value, without using the sliders. | <img src="docs/images/sv_square_hue_ring.png" width="320" alt="SV+H Square and Ring"> |
-| **HS Circle** | A color wheel: the angle sets the **hue** and the distance from the center sets the **saturation**. Use the V slider to change the brightness. | <img src="docs/images/hs_circle.png" width="320" alt="HS Circle"> |
-| **Hex code** | Turn on *Show Hex* to show the current color as a hexadecimal code (for example `#d85914`) under the sliders. Works with any layout. | <img src="docs/images/sv_square_hex.png" width="320" alt="SV Square with hex code"> |
-| **Weight Paint** | In Weight Paint mode the picker is a single **weight bar**: a blue-to-red gradient from 0.0 to 1.0, with the current value in the middle. Click or drag along it to set the brush weight. | <img src="docs/images/weight_paint.png" width="320" alt="Weight Paint bar"> |
+| Layout | How it works |
+| --- | --- |
+| **SV Square** (default) | A square where the horizontal axis is **saturation** and the vertical axis is **value** (brightness). Use the H slider to change the hue. |
+| **SV+H Square & Ring** | The same saturation/value square, inside a **hue ring**. Drag around the ring to change the hue and inside the square to set saturation and value, without using the sliders. |
+| **HS Circle** | A color wheel: the angle sets the **hue** and the distance from the center sets the **saturation**. Use the V slider to change the brightness. |
+| **Hex code** | Turn on *Show Hex* to show the current color as a hexadecimal code (for example `#d85914`) under the sliders. Works with any layout. |
+| **Weight Paint** | In Weight Paint mode the picker is a single **weight bar**: a blue-to-red gradient from 0.0 to 1.0, with the current value in the middle. Click or drag along it to set the brush weight. |
 
 ## Settings
 
 The settings are in the 3D Viewport sidebar (`N`), under *Paint > Color Picker*, while you are in a paint mode. The same options are also in the add-on's preferences.
-
-<img src="docs/images/sidebar_panel.png" width="252" alt="Color Picker sidebar panel">
 
 | Setting | What it does |
 | --- | --- |
@@ -76,21 +83,19 @@ The settings are in the 3D Viewport sidebar (`N`), under *Paint > Color Picker*,
 | Scale Factor | Extra size multiplier for the picker (0.5–2), applied on top of Screen DPI. Only in the add-on's preferences. |
 | Show Hex | Shows the color's hex code in the picker. |
 
-## ❤️ Support the developer
+## ❤️ Support the original developer
 
-[![Support the developer](docs/images/support.png)](https://superhivemarket.com/products/color-picker)
+Color Picker was created by [J. Fran Matheu](https://github.com/jfranmatheu). This fork only adds Blender 4.5 support and the keyboard shortcuts above.
 
 <div align="center">
 
-### Thanks to your support, Color Picker stays **open, free and public**.<br>If it saves you time, please consider getting it on Superhive: every purchase directly funds its development and future Blender updates.
+### If it saves you time, please consider getting it on Superhive: purchases fund the original add-on's development.
 
 <a href="https://superhivemarket.com/products/color-picker"><img src="https://img.shields.io/badge/Get%20it%20on-Superhive-ff6a00?style=for-the-badge&logo=blender&logoColor=white" alt="Get Color Picker on Superhive" width="360"></a>
 
 </div>
 
-## Documentation and FAQ
-
-The complete reference, including recent colors, hotkeys and how the picker is sized, is in the [documentation](DOCS.md).
+## FAQ
 
 Questions about installing, hotkeys, compatibility or why it's sold on Superhive? See the [FAQ](FAQ.md).
 

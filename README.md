@@ -14,7 +14,7 @@ It works in **Texture Paint**, **Vertex Paint** and **Weight Paint**, and it is 
 
 ## Installation
 
-Version 1.5.0, for **Blender 4.5 and newer**.
+Version 1.6.0, for **Blender 4.5 and newer**.
 
 1. Download the repository as a zip: **[main.zip](https://github.com/zafio/Blender-Color-Picker/archive/refs/heads/main.zip)** (or *Code > Download ZIP* on GitHub).
 2. In Blender, go to *Edit > Preferences > Get Extensions*, open the menu in the top-right corner and choose *Install from Disk…*, then select the zip. You can also drag and drop the zip into Blender.
@@ -48,10 +48,11 @@ These work in Texture Paint and Vertex Paint while you hold `Space` (or while th
 | Hold `H` + move the mouse left/right | Change the **hue**. It wraps around. |
 | Hold `S` + move the mouse left/right | Change the **saturation**. |
 | Hold `V` + move the mouse left/right | Change the **value** (brightness). |
+| Hold `R`, `G` or `B` + move the mouse left/right | Change the **red**, **green** or **blue** channel. |
 | Add `Shift` while moving | Fine adjustment (10× slower). |
 | Mouse wheel | **SV Square** and **SV+H Square & Ring**: change the **hue**. **HS Circle**: change the **value**. Hold `Shift` for smaller steps. |
 
-Moving the mouse across the picker's width covers the full 0 to 1 range. When you release `H`, `S` or `V`, the new color is added to the recent colors, like after dragging a slider. After scrolling, the color is added once when you press another key, click, or close the picker.
+Moving the mouse across the picker's width covers the full 0 to 1 range. When you release `H`, `S`, `V`, `R`, `G` or `B`, the new color is added to the recent colors, like after dragging a slider. After scrolling, the color is added once when you press another key, click, or close the picker.
 
 ## Picker layouts
 

@@ -18,8 +18,8 @@ from . prefs import get_prefs
 FACTOR_NUM_CHAR = 0.185  # 6666
 
 # While the picker is open: hold one of these keys and move the mouse
-# left/right to change that HSV component.
-HSV_ADJUST_KEYS = {'H': 'h', 'S': 's', 'V': 'v'}
+# left/right to change that HSV or RGB component.
+HSV_ADJUST_KEYS = {'H': 'h', 'S': 's', 'V': 'v', 'R': 'r', 'G': 'g', 'B': 'b'}
 # Mouse travel (in px, before UI scale) for a full 0..1 sweep.
 HSV_ADJUST_RANGE_PX = 400
 HSV_ADJUST_MIN = 0.00001  # Same floor as the S/V sliders, keeps hue from collapsing.
@@ -644,8 +644,10 @@ class Colpk(object):
             delta *= 0.1  # Precision mode.
         if self.hsv_adjust == 'h':
             self.hsv_value = (self.hsv_value + delta) % 1.0
-        else:
+        elif self.hsv_adjust in {'s', 'v'}:
             self.hsv_value = min(max(self.hsv_value + delta, HSV_ADJUST_MIN), 1.0)
+        else:  # r, g, b
+            self.hsv_value = min(max(self.hsv_value + delta, 0.0), 1.0)
         # Track the value ourselves so repeated HSV<->RGB round trips don't drift.
         self.set_component(self.hsv_adjust, self.hsv_value)
 

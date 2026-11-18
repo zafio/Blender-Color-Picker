@@ -1,5 +1,7 @@
 # Color Picker
 
+> Fork by Zafio of [jfranmatheu/Blender-Color-Picker](https://github.com/jfranmatheu/Blender-Color-Picker), lowered to run on **Blender 4.5 LTS** (the 1.3.x code also keeps working on 5.x).
+
 ![Color Picker for Blender](docs/images/cover.png)
 
 <div align="center">
@@ -14,12 +16,12 @@ It works in **Texture Paint**, **Vertex Paint** and **Weight Paint**, and it is 
 
 ## Installation
 
-**Blender 5.0 and newer** (tested in 5.3):
+**Blender 4.5 and newer** (5.x tested upstream in 5.3):
 
-1. Download the zip from the **[latest release](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest)**.
+1. Download the zip: for **Blender 4.5** use [`releases/ColorPicker_v1.3.1_(Blender_4.5).zip`](releases); for 5.x the same build works, or use the **[latest upstream release](https://github.com/jfranmatheu/Blender-Color-Picker/releases/latest)**.
 2. In Blender, go to *Edit > Preferences > Get Extensions*, open the menu in the top-right corner and choose *Install from Disk…*, then select the zip. You can also drag and drop the zip into Blender.
 
-Older builds for Blender 2.93, 3.x and 4.x are in the [`releases`](releases) folder.
+Older builds for Blender 2.93, 3.x and 4.0/4.1 are in the [`releases`](releases) folder.
 
 ## Usage
 

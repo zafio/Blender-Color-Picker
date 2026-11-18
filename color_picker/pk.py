@@ -35,7 +35,6 @@ class Colpk(object):
         """ Init useful properties. """
         if context.mode == 'PAINT_TEXTURE':
             self.paint = context.tool_settings.image_paint
-            self.texture = self.paint.brush.texture
         elif context.mode == 'PAINT_VERTEX':
             self.paint = context.tool_settings.vertex_paint
         elif context.mode == 'PAINT_WEIGHT':
@@ -45,7 +44,9 @@ class Colpk(object):
             # Nothing to edit; the picker UI was never created, so don't call finish().
             return {'CANCELLED'}
         self.brush = brush
-        # Blender 5.0+: unified settings live on each Paint mode.
+        if context.mode == 'PAINT_TEXTURE':
+            self.texture = brush.texture
+        # Blender 5.0+: unified settings live on each Paint mode; 4.5 keeps them on ToolSettings.
         self.ups = getattr(self.paint, 'unified_paint_settings', None) or context.tool_settings.unified_paint_settings
         self.size = brush.size if not self.ups.use_unified_size else self.ups.size
         self.strength = brush.strength if not self.ups.use_unified_strength else self.ups.strength

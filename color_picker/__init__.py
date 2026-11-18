@@ -14,10 +14,10 @@
 from . import auto_load
 bl_info = {
     "name": "ColorPicker",
-    "author": "J. Fran Matheu (@jfranmatheu)",
+    "author": "J. Fran Matheu (@jfranmatheu), Zafio",
     "description": "",
-    "blender": (5, 3, 0),
-    "version": (1, 3, 0),
+    "blender": (4, 5, 0),
+    "version": (1, 3, 1),
     "location": "3D Viewport > Paint tab in sidebar (Texture/Vertex/Weight paint)",
     "warning": "",
     "category": "Interface"

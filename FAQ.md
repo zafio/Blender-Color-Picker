@@ -14,7 +14,7 @@ Superhive sells the original add-on by J. Fran Matheu; buying it is how you supp
 
 ### Is the store version different from this fork?
 
-The store sells the original add-on, which needs Blender 5.0 or newer. This fork is the same add-on adapted to Blender 4.5, plus keyboard shortcuts (`Tab` to switch layouts, `H`/`S`/`V` + mouse to adjust the color).
+The store sells the original add-on, which needs Blender 5.0 or newer. This fork is the same add-on adapted to Blender 4.5, plus keyboard shortcuts (`Tab` to switch layouts, `H`/`S`/`V` + mouse or the mouse wheel to adjust the color).
 
 ### I can't afford it. Can I still use it?
 
@@ -24,7 +24,7 @@ Absolutely. Download it from [GitHub](https://github.com/zafio/Blender-Color-Pic
 
 ### Which Blender versions are supported?
 
-This fork (1.4.0) needs **Blender 4.5 or newer** and also runs on 5.x. Builds for Blender 2.93 to 4.1 are in the [original repository's `releases` folder](https://github.com/jfranmatheu/Blender-Color-Picker/tree/main/releases). They don't receive updates.
+This fork (1.5.0) needs **Blender 4.5 or newer** and also runs on 5.x. Builds for Blender 2.93 to 4.1 are in the [original repository's `releases` folder](https://github.com/jfranmatheu/Blender-Color-Picker/tree/main/releases). They don't receive updates.
 
 ### Which modes does it work in?
 
@@ -72,7 +72,7 @@ Raise or lower *Screen DPI* in the settings. For finer control, use *Scale Facto
 
 ### Can I change the color without clicking?
 
-Yes. While the picker is open, hold `H`, `S` or `V` and move the mouse left/right to change hue, saturation or value (add `Shift` for fine control). Press `Tab` to switch layouts. See [Keyboard shortcuts](README.md#keyboard-shortcuts-while-the-picker-is-open).
+Yes. While the picker is open, hold `H`, `S` or `V` and move the mouse left/right to change hue, saturation or value (add `Shift` for fine control). The mouse wheel changes the hue in the square layouts and the value in HS Circle. Press `Tab` to switch layouts. See [Keyboard shortcuts](README.md#keyboard-shortcuts-while-the-picker-is-open).
 
 ### Can I see the hex code of the color?
 

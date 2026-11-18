@@ -23,6 +23,9 @@ HSV_ADJUST_KEYS = {'H': 'h', 'S': 's', 'V': 'v'}
 # Mouse travel (in px, before UI scale) for a full 0..1 sweep.
 HSV_ADJUST_RANGE_PX = 400
 HSV_ADJUST_MIN = 0.00001  # Same floor as the S/V sliders, keeps hue from collapsing.
+# Mouse wheel: which component each layout changes, and the step per notch.
+WHEEL_COMPONENT = {'SV_RECT': 'h', 'SV_H_RECT': 'h', 'HS_CIRC': 'v'}
+WHEEL_STEP = 0.02
 
 
 class Colpk(object):
@@ -71,6 +74,7 @@ class Colpk(object):
         self.secondary_color = brush.secondary_color if not self.ups.use_unified_color else self.ups.secondary_color
         self.picking_color = False
         self.hsv_adjust = None
+        self.wheel_pending = False
         self.hsv_sync_callbacks = []
         self.hsv_confirm_callbacks = []
         self.dpi = self.prefs.screen_dpi
@@ -595,7 +599,17 @@ class Colpk(object):
         return self.mod((self, context, event))  # TODO: finish this :-(
 
     def modal_shortcuts(self, context, event):
-        """ Tab / Shift+Tab: switch picker layout. H, S, V + mouse move: adjust that component. """
+        """ Tab / Shift+Tab: switch picker layout. H, S, V + mouse move: adjust that component.
+        Mouse wheel: hue (SV layouts) or value (HS Circle). """
+        if event.type in {'WHEELUPMOUSE', 'WHEELDOWNMOUSE'}:
+            if not self.hsv_adjust:
+                self.apply_wheel(event)
+            return {'RUNNING_MODAL'}
+        if self.wheel_pending and not event.is_repeat and event.type not in {
+                'TIMER', 'TIMER_REPORT', 'NONE', 'MOUSEMOVE', 'INBETWEEN_MOUSEMOVE'}:
+            # Scrolling ended (next key/click, or closing): confirm once, so a scroll
+            # adds one recent color, not one per notch.
+            self.confirm_color()
         if event.type == 'TAB':
             if event.value == 'PRESS' and not event.is_repeat:
                 self.cycle_picker_type(context, -1 if event.shift else 1)
@@ -633,10 +647,34 @@ class Colpk(object):
         else:
             self.hsv_value = min(max(self.hsv_value + delta, HSV_ADJUST_MIN), 1.0)
         # Track the value ourselves so repeated HSV<->RGB round trips don't drift.
+        self.set_component(self.hsv_adjust, self.hsv_value)
+
+    def set_component(self, comp, value):
         color = self.color_user.color
-        setattr(color, self.hsv_adjust, self.hsv_value)
+        setattr(color, comp, value)
         self.color_user.color = color
         for callback in self.hsv_sync_callbacks:
+            callback()
+        self.ctx_region.tag_redraw()
+
+    def apply_wheel(self, event):
+        comp = WHEEL_COMPONENT.get(self.picker_type)
+        if not comp:
+            return
+        step = WHEEL_STEP * (0.25 if event.shift else 1.0)
+        if event.type == 'WHEELDOWNMOUSE':
+            step = -step
+        value = getattr(self.color_user.color, comp) + step
+        if comp == 'h':
+            value %= 1.0
+        else:
+            value = min(max(value, HSV_ADJUST_MIN), 1.0)
+        self.set_component(comp, value)
+        self.wheel_pending = True
+
+    def confirm_color(self):
+        self.wheel_pending = False
+        for callback in self.hsv_confirm_callbacks:
             callback()
         self.ctx_region.tag_redraw()
 
@@ -644,8 +682,7 @@ class Colpk(object):
         if not self.hsv_adjust:
             return
         self.hsv_adjust = None
-        for callback in self.hsv_confirm_callbacks:
-            callback()
+        self.confirm_color()
         if context:
             Cursor.set_icon(context, CursorIcon.DEFAULT)
         self.ctx_region.tag_redraw()
@@ -654,6 +691,8 @@ class Colpk(object):
         if context.area != self.ctx_area:
             return
         self.end_hsv_adjust(context)
+        if self.wheel_pending:
+            self.confirm_color()
         from . data import copktype
         types = [item[0] for item in copktype]
         idx = types.index(self.picker_type) if self.picker_type in types else 0
@@ -673,6 +712,8 @@ class Colpk(object):
 
     def finish(self, context=None):
         self.end_hsv_adjust()
+        if self.wheel_pending:
+            self.confirm_color()
         self.mod.stop(context == None)
         self.paint.show_brush = True
         Cursor.set_icon(context, CursorIcon.PAINT_CROSS)

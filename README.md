@@ -14,7 +14,7 @@ It works in **Texture Paint**, **Vertex Paint** and **Weight Paint**, and it is 
 
 ## Installation
 
-Version 1.4.0, for **Blender 4.5 and newer**.
+Version 1.5.0, for **Blender 4.5 and newer**.
 
 1. Download the repository as a zip: **[main.zip](https://github.com/zafio/Blender-Color-Picker/archive/refs/heads/main.zip)** (or *Code > Download ZIP* on GitHub).
 2. In Blender, go to *Edit > Preferences > Get Extensions*, open the menu in the top-right corner and choose *Install from Disk…*, then select the zip. You can also drag and drop the zip into Blender.
@@ -49,8 +49,9 @@ These work in Texture Paint and Vertex Paint while you hold `Space` (or while th
 | Hold `S` + move the mouse left/right | Change the **saturation**. |
 | Hold `V` + move the mouse left/right | Change the **value** (brightness). |
 | Add `Shift` while moving | Fine adjustment (10× slower). |
+| Mouse wheel | **SV Square** and **SV+H Square & Ring**: change the **hue**. **HS Circle**: change the **value**. Hold `Shift` for smaller steps. |
 
-Moving the mouse across the picker's width covers the full 0 to 1 range. When you release `H`, `S` or `V`, the new color is added to the recent colors, like after dragging a slider.
+Moving the mouse across the picker's width covers the full 0 to 1 range. When you release `H`, `S` or `V`, the new color is added to the recent colors, like after dragging a slider. After scrolling, the color is added once when you press another key, click, or close the picker.
 
 ## Picker layouts
 
@@ -64,9 +65,9 @@ Every slider shows a live gradient of the colors you would get by moving it, so 
 
 | Layout | How it works |
 | --- | --- |
-| **SV Square** (default) | A square where the horizontal axis is **saturation** and the vertical axis is **value** (brightness). Use the H slider to change the hue. |
-| **SV+H Square & Ring** | The same saturation/value square, inside a **hue ring**. Drag around the ring to change the hue and inside the square to set saturation and value, without using the sliders. |
-| **HS Circle** | A color wheel: the angle sets the **hue** and the distance from the center sets the **saturation**. Use the V slider to change the brightness. |
+| **SV Square** (default) | A square where the horizontal axis is **saturation** and the vertical axis is **value** (brightness). Use the H slider or the mouse wheel to change the hue. |
+| **SV+H Square & Ring** | The same saturation/value square, inside a **hue ring**. Drag around the ring to change the hue and inside the square to set saturation and value, without using the sliders. The mouse wheel also changes the hue. |
+| **HS Circle** | A color wheel: the angle sets the **hue** and the distance from the center sets the **saturation**. Use the V slider or the mouse wheel to change the brightness. |
 | **Hex code** | Turn on *Show Hex* to show the current color as a hexadecimal code (for example `#d85914`) under the sliders. Works with any layout. |
 | **Weight Paint** | In Weight Paint mode the picker is a single **weight bar**: a blue-to-red gradient from 0.0 to 1.0, with the current value in the middle. Click or drag along it to set the brush weight. |
 

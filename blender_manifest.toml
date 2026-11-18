@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "color_picker"
-version = "1.4.0"
+version = "1.5.0"
 name = "ColorPicker"
 tagline = "Advanced color picker popup for texture, vertex and weight paint"
 maintainer = "Zafio (fork of J. Fran Matheu's ColorPicker)"
